@@ -9,3 +9,4 @@ There are no current Bounties at this time. If you would like to sponsor a bount
 - Add a Trade button on the button that works the same as the link in the embed
 - Try to condense the full detail view for mobile devices
 - Have an advanced chart button that shows a screenshot of what the chart on vestige looks like
+- Have a button that says holders and shows the top 10 holders and their % of the holding.
