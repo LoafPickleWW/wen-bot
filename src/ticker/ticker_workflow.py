@@ -1,5 +1,4 @@
 import discord
-from datetime import datetime, timedelta
 
 from src.Bot import Bot
 from src.ticker.TokenInfo import TokenInfo
@@ -9,7 +8,6 @@ from src.ticker.utils import (
     get_ticker_candles, find_highest_and_lowest
 )
 
-from consts import CANDLE_INTERVALS
 from src.logger import notify_admin
 
 async def ticker_workflow(interaction: discord.Interaction, bot: Bot, ticker: str):
@@ -21,15 +19,10 @@ async def ticker_workflow(interaction: discord.Interaction, bot: Bot, ticker: st
             return None
 
         # Get candles for 7 days
-        current_time = datetime.utcnow()
-        seven_days_ago = current_time - timedelta(days=7)
-        seven_days_ago_timestamp = int(seven_days_ago.timestamp())
-        candles = await get_ticker_candles(interaction, token.asset_id, CANDLE_INTERVALS, int(seven_days_ago_timestamp))
+        candles = await get_ticker_candles(interaction, token, 7)
 
         # Get candles for 24 days, only for the high/low
-        twenty_four_hours_ago = current_time - timedelta(hours=24)
-        twenty_four_hours_ago_timestamp = int(twenty_four_hours_ago.timestamp())
-        candles_24 = await get_ticker_candles(interaction, token.asset_id, CANDLE_INTERVALS, int(twenty_four_hours_ago_timestamp))
+        candles_24 = await get_ticker_candles(interaction, token, 1)
 
         img_file = None
         if candles:
