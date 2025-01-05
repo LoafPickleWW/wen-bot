@@ -4,7 +4,10 @@ from datetime import datetime, timedelta
 from src.Bot import Bot
 from src.ticker.TokenInfo import TokenInfo
 from src.ticker.graph import get_graph
-from src.ticker.utils import calculate_percentage_change, get_ticker_info, get_ticker_candles, find_highest_and_lowest
+from src.ticker.utils import (
+    calculate_percentage_change, get_ticker_info, 
+    get_ticker_candles, find_highest_and_lowest
+)
 
 from consts import CANDLE_INTERVALS
 from src.logger import notify_admin
