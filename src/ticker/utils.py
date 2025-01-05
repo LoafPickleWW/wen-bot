@@ -1,4 +1,4 @@
-import aiohttp
+import aiohttp, time
 
 from src.Bot import Bot
 from src.ticker.TokenInfo import TokenInfo
@@ -21,8 +21,22 @@ from src.logger import notify_bot, notify_admin
 
 #     return algo_data["USD"]
 
-async def get_ticker_candles(interaction, asset_id, interval, start):
-    url = (f"https://indexer.vestige.fi/assets/{asset_id}/candles?"
+async def get_ticker_candles(interaction, token: TokenInfo, start_num_days_ago):
+    now = int(time.time())
+    age = now - token.creation_timestamp
+
+    if age <= 1800:     # 30 mins
+        interval = 30
+    elif age <= 3600:   # 1 hour
+        interval = 60    
+    elif age <= 86400:  # 1 day
+        interval = 300 
+    else:
+        interval = 7200
+
+    start = now - start_num_days_ago * 24 * 3600  # 7 days in seconds
+
+    url = (f"https://indexer.vestige.fi/assets/{token.asset_id}/candles?"
            f"network_id={NETWORK_ID}&interval={interval}&start={start}"
            f"&denominating_asset_id=0&volume_in_denominating_asset=false")
     
