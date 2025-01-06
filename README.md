@@ -1,3 +1,6 @@
+# Adding the Bot
+### [Invite Link](https://discord.com/oauth2/authorize?client_id=1325220652332089435)
+---
 # Bounties
 There are no current Bounties at this time. If you would like to sponsor a bounty, please reach out to LoafPickle
 --- 
