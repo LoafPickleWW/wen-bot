@@ -43,21 +43,18 @@ async def ticker_workflow(interaction: discord.Interaction, bot: Bot, ticker: st
         embed.add_field(name="Ticker", value=token.ticker, inline=True)
         embed.add_field(name="Rank", value=token.rank, inline=True)
         embed.add_field(name="Price", value=f"{token.price:,.8f} A", inline=False)
+        
+        embed.add_field(name="24h Price Change", value=f"{change_24_hrs:,.2f}%", inline=True)
+        embed.add_field(name="7d Price Change", value=f"{change_7_days:,.2f}%", inline=True)
 
         embed.add_field(name="24h High", value=f"{highest_24h:,.8f} A", inline=True)
-        # embed.add_field(name="\u200b", value="\u200b", inline=True)
-        embed.add_field(name="7d High", value=f"{highest_7d:,.8f} A", inline=True)
-        
         embed.add_field(name="24h Low", value=f"{lowest_24h:,.8f} A", inline=True)
-        # embed.add_field(name="\u200b", value="\u200b", inline=True)
-        embed.add_field(name="7d Low", value=f"{lowest_7d:,.8f} A", inline=True)
-
-        embed.add_field(name="24h Price Change", value=f"{change_24_hrs:,.2f}%", inline=True)
-        # embed.add_field(name="\u200b", value="\u200b", inline=True)
-        embed.add_field(name="7d Price Change", value=f"{change_7_days:,.2f}%", inline=True)
-        
         embed.add_field(name="24h Volume", value=f"{token.volume1d:,.3f} A", inline=True)
         # embed.add_field(name="\u200b", value="\u200b", inline=True)
+        
+        embed.add_field(name="7d High", value=f"{highest_7d:,.8f} A", inline=True)
+        embed.add_field(name="7d Low", value=f"{lowest_7d:,.8f} A", inline=True)        
+        
         embed.add_field(name="Market Cap", value=f"{token.market_cap:,.3f} A", inline=True)
 
         attachments = []    
