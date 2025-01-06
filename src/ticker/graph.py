@@ -9,7 +9,7 @@ def get_graph(candles):
 
     # Plot the data
     plt.figure(figsize=(10, 5), facecolor="none")
-    plt.plot(times, prices, linestyle="-", color="green", linewidth=4)
+    plt.plot(times, prices, linestyle="-", color="green", linewidth=8)
     
     # Add fill below the line
     plt.fill_between(times, prices, min(prices), alpha=0.2, color="green")
