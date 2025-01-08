@@ -100,15 +100,28 @@ def calculate_percentage_change(current_price, price_24hr_ago, price_7days_ago):
 def conversion(currencies, currency, token):
     converted_token: TokenInfo = copy.deepcopy(token)
 
-    postfix = "" # Would then need to know all options returned, dont like
+    postfix = ""
+    if currency == "ALGO":
+        postfix = " Ⱥ"
+    elif currency == "USD":
+        postfix = " $"
+    elif currency == "EUR":
+        postfix = " €"
+    elif currency == "GBP":
+        postfix = " £"
+    else:
+        postfix = " ?"
 
-    converted_token.price = f"{token.price*currencies[currency]:,.8f}"
-    converted_token.highest_24h = f"{token.highest_24h*currencies[currency]:,.8f}"
-    converted_token.highest_7d = f"{token.highest_7d*currencies[currency]:,.8f}"
-    converted_token.lowest_24h = f"{token.lowest_24h*currencies[currency]:,.8f}"
-    converted_token.lowest_7d = f"{token.lowest_7d*currencies[currency]:,.8f}"
-    converted_token.change_24_hrs = f"{token.change_24_hrs*currencies[currency]:,.2f}%"
-    converted_token.change_7_days = f"{token.change_7_days*currencies[currency]:,.2f}%"
-    converted_token.volume1d = f"{token.volume1d*currencies[currency]:,.3f}"
-    converted_token.market_cap = f"{token.market_cap*currencies[currency]:,.3f}"
+    token.change_24_hrs, token.change_7_days = calculate_percentage_change(
+        token.price*currencies[currency], token.price1d*currencies[currency], token.price7d*currencies[currency])
+
+    converted_token.price = f"{token.price*currencies[currency]:,.8f}{postfix}"
+    converted_token.highest_24h = f"{token.highest_24h*currencies[currency]:,.8f}{postfix}"
+    converted_token.highest_7d = f"{token.highest_7d*currencies[currency]:,.8f}{postfix}"
+    converted_token.lowest_24h = f"{token.lowest_24h*currencies[currency]:,.8f}{postfix}"
+    converted_token.lowest_7d = f"{token.lowest_7d*currencies[currency]:,.8f}{postfix}"
+    converted_token.change_24_hrs = f"{token.change_24_hrs:,.2f}%"
+    converted_token.change_7_days = f"{token.change_7_days:,.2f}%"
+    converted_token.volume1d = f"{token.volume1d*currencies[currency]:,.3f}{postfix}"
+    converted_token.market_cap = f"{token.market_cap*currencies[currency]:,.3f}{postfix}"
     return converted_token
