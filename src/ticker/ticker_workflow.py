@@ -39,9 +39,6 @@ async def ticker_workflow(interaction: discord.Interaction, bot: Bot, ticker: st
             token.highest_24h, token.lowest_24h = find_highest_and_lowest(candles_24)
             token.graph = get_graph(candles)
             
-        # Price calculations
-        token.change_24_hrs, token.change_7_days = calculate_percentage_change(token.price, token.price1d, token.price7d)
-
         await ticker_ui(interaction, currencies, "USD", token)
 
     except Exception as e:
