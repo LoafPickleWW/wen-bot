@@ -26,4 +26,14 @@ class TokenInfo:
             self.swaps1d = json_object["swaps1d"]
             self.swaps7d = json_object["swaps7d"]
 
-            self.liquidity = self.total_lockup * self.price
+            # Calculated items
+            self.graph = None
+            
+            self.highest_24h = None
+            self.lowest_24h = None
+            
+            self.highest_7d = None
+            self.lowest_7d = None
+
+            self.change_24_hrs = None
+            self.change_7_days = None
