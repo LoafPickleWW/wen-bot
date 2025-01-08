@@ -1,4 +1,4 @@
-import aiohttp, time
+import aiohttp, time, copy
 
 from src.Bot import Bot
 from src.ticker.TokenInfo import TokenInfo
@@ -6,20 +6,21 @@ from consts import NETWORK_ID, HEADERS, SEARCH_URL
 
 from src.logger import notify_bot, notify_admin
 
-# async def get_algo_price(interaction, bot):
-#     url = "https://free-api.vestige.fi/currency/prices"
-#     conn = aiohttp.TCPConnector(limit=None, ttl_dns_cache=300)
-#     session = aiohttp.ClientSession(connector=conn)
-#     async with session.get(url=url, headers=HEADERS) as response:
-#         if response.status == 200:
-#             algo_data = await response.json()
-#         else:
-#             await notify_admin(interaction, bot, f"error processing algo price :: {response}")
-#             await session.close()
-#             return None
-#     await session.close()
+async def get_currencies(interaction, bot):
+    algo_data = None
+    url = "https://free-api.vestige.fi/currency/prices"
+    conn = aiohttp.TCPConnector(limit=None, ttl_dns_cache=300)
+    session = aiohttp.ClientSession(connector=conn)
+    async with session.get(url=url, headers=HEADERS) as response:
+        if response.status == 200:
+            algo_data = await response.json()
+        else:
+            await notify_admin(interaction, bot, f"error processing algo price :: {response}")
+            await session.close()
+            return None
+    await session.close()
 
-#     return algo_data["USD"]
+    return algo_data
 
 async def get_ticker_candles(interaction, token: TokenInfo, start_num_days_ago):
     now = int(time.time())
@@ -95,3 +96,19 @@ def calculate_percentage_change(current_price, price_24hr_ago, price_7days_ago):
     change_24hr = percentage_change(current_price, price_24hr_ago)
     change_7days = percentage_change(current_price, price_7days_ago)
     return change_24hr, change_7days
+
+def conversion(currencies, currency, token):
+    converted_token: TokenInfo = copy.deepcopy(token)
+
+    postfix = "" # Would then need to know all options returned, dont like
+
+    converted_token.price = f"{token.price*currencies[currency]:,.8f}"
+    converted_token.highest_24h = f"{token.highest_24h*currencies[currency]:,.8f}"
+    converted_token.highest_7d = f"{token.highest_7d*currencies[currency]:,.8f}"
+    converted_token.lowest_24h = f"{token.lowest_24h*currencies[currency]:,.8f}"
+    converted_token.lowest_7d = f"{token.lowest_7d*currencies[currency]:,.8f}"
+    converted_token.change_24_hrs = f"{token.change_24_hrs*currencies[currency]:,.2f}%"
+    converted_token.change_7_days = f"{token.change_7_days*currencies[currency]:,.2f}%"
+    converted_token.volume1d = f"{token.volume1d*currencies[currency]:,.3f}"
+    converted_token.market_cap = f"{token.market_cap*currencies[currency]:,.3f}"
+    return converted_token
