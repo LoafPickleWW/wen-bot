@@ -38,7 +38,6 @@ async def ticker_ui(interaction, currencies, currency, token):
         # Make it pretty
         embed =  discord.Embed(
             title=f"Buy more ${token.ticker.lstrip('$')}",
-            description=f"** Numbers in {currency}**",
             colour = discord.Colour.green(),
             url= f"https://vestige.fi/swap?asset_in=0&asset_out={token.asset_id}"
         )
